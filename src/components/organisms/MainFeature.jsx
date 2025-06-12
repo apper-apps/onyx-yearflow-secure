@@ -2,14 +2,15 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { format, startOfYear, endOfYear, eachMonthOfInterval, isWithinInterval } from 'date-fns';
 import { toast } from 'react-toastify';
-import ApperIcon from './ApperIcon';
-import TimelineView from './TimelineView';
-import GoalModal from './GoalModal';
-import NotificationPanel from './NotificationPanel';
-import FilterToolbar from './FilterToolbar';
-import * as goalService from '../services/api/goalService';
-import * as eventService from '../services/api/eventService';
-import * as notificationService from '../services/api/notificationService';
+import ApperIcon from '@/components/ApperIcon';
+import TimelineView from '@/components/organisms/TimelineView';
+import GoalModal from '@/components/organisms/GoalModal';
+import NotificationPanel from '@/components/organisms/NotificationPanel';
+import FilterToolbar from '@/components/organisms/FilterToolbar';
+import Button from '@/components/atoms/Button';
+import * as goalService from '@/services/api/goalService';
+import * as eventService from '@/services/api/eventService';
+import * as notificationService from '@/services/api/notificationService';
 
 const MainFeature = ({ calendar }) => {
   const [currentYear] = useState(new Date().getFullYear());
@@ -175,12 +176,12 @@ const MainFeature = ({ calendar }) => {
           </div>
           <h2 className="text-xl font-semibold text-gray-900 mb-2">Failed to Load</h2>
           <p className="text-surface-600 mb-4">{error}</p>
-          <button
+          <Button
             onClick={loadData}
             className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
           >
             Retry
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -202,7 +203,7 @@ const MainFeature = ({ calendar }) => {
             </div>
             
             <div className="flex items-center space-x-3">
-              <button
+              <Button
                 onClick={() => setShowNotifications(!showNotifications)}
                 className="relative p-2 text-surface-600 hover:text-primary transition-colors"
               >
@@ -212,11 +213,11 @@ const MainFeature = ({ calendar }) => {
                     {getActiveNotifications().length}
                   </span>
                 )}
-              </button>
+              </Button>
               
               <div className="flex bg-surface-100 rounded-lg p-1">
                 {['year', 'quarter', 'month'].map(mode => (
-                  <button
+                  <Button
                     key={mode}
                     onClick={() => setViewMode(mode)}
                     className={`px-3 py-2 text-sm font-medium rounded-md transition-all ${
@@ -226,11 +227,11 @@ const MainFeature = ({ calendar }) => {
                     }`}
                   >
                     {mode.charAt(0).toUpperCase() + mode.slice(1)}
-                  </button>
+                  </Button>
                 ))}
               </div>
               
-              <motion.button
+              <Button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setShowGoalModal(true)}
@@ -238,7 +239,7 @@ const MainFeature = ({ calendar }) => {
               >
                 <ApperIcon name="Plus" className="w-4 h-4 mr-2" />
                 Add Goal
-              </motion.button>
+              </Button>
             </div>
           </div>
           

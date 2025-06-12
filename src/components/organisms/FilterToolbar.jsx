@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { startOfMonth, endOfMonth, startOfQuarter, endOfQuarter } from 'date-fns';
-import ApperIcon from './ApperIcon';
+import ApperIcon from '@/components/ApperIcon';
+import Button from '@/components/atoms/Button';
 
 const FilterToolbar = ({ goals, filters, onFiltersChange }) => {
   const [showFilters, setShowFilters] = useState(false);
@@ -76,7 +77,7 @@ const FilterToolbar = ({ goals, filters, onFiltersChange }) => {
       <div className="px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <motion.button
+            <Button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setShowFilters(!showFilters)}
@@ -93,17 +94,17 @@ const FilterToolbar = ({ goals, filters, onFiltersChange }) => {
                   {getActiveFilterCount()}
                 </span>
               )}
-            </motion.button>
+            </Button>
 
             {getActiveFilterCount() > 0 && (
-              <motion.button
+              <Button
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 onClick={clearFilters}
                 className="text-sm text-surface-500 hover:text-surface-700 transition-colors"
               >
                 Clear all
-              </motion.button>
+              </Button>
             )}
           </div>
 
@@ -132,7 +133,7 @@ const FilterToolbar = ({ goals, filters, onFiltersChange }) => {
                   </label>
                   <div className="flex flex-wrap gap-2">
                     {categories.map(category => (
-                      <motion.button
+                      <Button
                         key={category}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -145,7 +146,7 @@ const FilterToolbar = ({ goals, filters, onFiltersChange }) => {
                       >
                         <div className={`w-2 h-2 rounded-full mr-2 ${getCategoryColor(category)}`}></div>
                         {category}
-                      </motion.button>
+                      </Button>
                     ))}
                   </div>
                 </div>
@@ -158,7 +159,7 @@ const FilterToolbar = ({ goals, filters, onFiltersChange }) => {
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {statuses.map(status => (
-                    <motion.button
+                    <Button
                       key={status}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -170,7 +171,7 @@ const FilterToolbar = ({ goals, filters, onFiltersChange }) => {
                       }`}
                     >
                       {status === 'all' ? 'All' : status.charAt(0).toUpperCase() + status.slice(1)}
-                    </motion.button>
+                    </Button>
                   ))}
                 </div>
               </div>
@@ -182,7 +183,7 @@ const FilterToolbar = ({ goals, filters, onFiltersChange }) => {
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {dateRangeOptions.map((option, index) => (
-                    <motion.button
+                    <Button
                       key={index}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -196,7 +197,7 @@ const FilterToolbar = ({ goals, filters, onFiltersChange }) => {
                       }`}
                     >
                       {option.label}
-                    </motion.button>
+                    </Button>
                   ))}
                 </div>
               </div>

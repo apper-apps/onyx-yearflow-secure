@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
-import ApperIcon from './ApperIcon';
-import * as calendarService from '../services/api/calendarService';
+import ApperIcon from '@/components/ApperIcon';
+import FormField from '@/components/molecules/FormField';
+import Button from '@/components/atoms/Button';
+import * as calendarService from '@/services/api/calendarService';
 
 const CalendarConnector = ({ onConnect }) => {
   const [calendarId, setCalendarId] = useState('');
@@ -101,7 +103,7 @@ const CalendarConnector = ({ onConnect }) => {
               { value: 'google', label: 'Google', icon: 'Mail' },
               { value: 'apple', label: 'Apple', icon: 'Smartphone' }
             ].map(provider => (
-              <motion.button
+              <Button
                 key={provider.value}
                 type="button"
                 whileHover={{ scale: 1.02 }}
@@ -115,59 +117,51 @@ const CalendarConnector = ({ onConnect }) => {
               >
                 <ApperIcon name={provider.icon} className="w-6 h-6" />
                 <span className="font-medium">{provider.label}</span>
-              </motion.button>
+              </Button>
             ))}
           </div>
         </div>
 
-        <div>
-          <label htmlFor="calendarId" className="block text-sm font-medium text-gray-700 mb-2">
-            Calendar ID
-          </label>
-          <input
-            type="text"
+        <FormField
             id="calendarId"
-            value={calendarId}
-            onChange={(e) => {
-              setCalendarId(e.target.value);
-              setValidationError('');
+            label="Calendar ID"
+            error={validationError}
+            inputProps={{
+                value: calendarId,
+                onChange: (e) => {
+                    setCalendarId(e.target.value);
+                    setValidationError('');
+                },
+                placeholder: calendarType === 'google' ? 'your-calendar@gmail.com' : 'ABCD-EFGH-1234-5678',
+                disabled: loading,
             }}
-            placeholder={
-              calendarType === 'google' 
-                ? 'your-calendar@gmail.com'
-                : 'ABCD-EFGH-1234-5678'
-            }
-            className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${
-              validationError ? 'border-error' : 'border-surface-300'
-            }`}
-            disabled={loading}
-          />
-          {validationError && (
-            <motion.p
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-2 text-sm text-error flex items-center"
-            >
-              <ApperIcon name="AlertCircle" className="w-4 h-4 mr-1" />
-              {validationError}
-            </motion.p>
-          )}
-          <p className="mt-2 text-sm text-surface-500">
-            {calendarType === 'google' ? (
-              <>
-                Find your Google Calendar ID in Calendar Settings → Integrate calendar.
-                Use your primary email or specific calendar ID.
-              </>
-            ) : (
-              <>
-                Find your Apple Calendar ID in Settings → Calendar → Accounts.
-                Look for the calendar identifier string.
-              </>
+        >
+            {validationError && (
+                <motion.p
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-2 text-sm text-error flex items-center"
+                >
+                    <ApperIcon name="AlertCircle" className="w-4 h-4 mr-1" />
+                    {validationError}
+                </motion.p>
             )}
-          </p>
-        </div>
+            <p className="mt-2 text-sm text-surface-500">
+                {calendarType === 'google' ? (
+                <>
+                    Find your Google Calendar ID in Calendar Settings → Integrate calendar.
+                    Use your primary email or specific calendar ID.
+                </>
+                ) : (
+                <>
+                    Find your Apple Calendar ID in Settings → Calendar → Accounts.
+                    Look for the calendar identifier string.
+                </>
+                )}
+            </p>
+        </FormField>
 
-        <motion.button
+        <Button
           type="submit"
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
@@ -185,7 +179,7 @@ const CalendarConnector = ({ onConnect }) => {
               Connect Calendar
             </>
           )}
-        </motion.button>
+        </Button>
       </form>
 
       <div className="mt-8 p-4 bg-info/5 border border-info/20 rounded-lg">

@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { format } from 'date-fns';
-import ApperIcon from './ApperIcon';
+import ApperIcon from '@/components/ApperIcon';
+import FormField from '@/components/molecules/FormField';
+import Input from '@/components/atoms/Input'; // Used for select type
+import Button from '@/components/atoms/Button';
 
 const GoalModal = ({ goal, onSave, onClose }) => {
   const [formData, setFormData] = useState({
@@ -153,100 +155,73 @@ const GoalModal = ({ goal, onSave, onClose }) => {
               <h2 className="text-xl font-semibold text-gray-900">
                 {goal ? 'Edit Goal' : 'Create New Goal'}
               </h2>
-              <button
+              <Button
                 onClick={onClose}
                 className="p-2 text-surface-400 hover:text-surface-600 transition-colors"
               >
                 <ApperIcon name="X" className="w-5 h-5" />
-              </button>
+              </Button>
             </div>
           </div>
 
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
-            {/* Title */}
-            <div>
-              <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
-                Goal Title *
-              </label>
-              <input
-                type="text"
-                id="title"
-                value={formData.title}
-                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${
-                  errors.title ? 'border-error' : 'border-surface-300'
-                }`}
-                placeholder="Enter your goal title"
-              />
-              {errors.title && (
-                <p className="mt-1 text-sm text-error">{errors.title}</p>
-              )}
-            </div>
+            <FormField
+              id="title"
+              label="Goal Title *"
+              error={errors.title}
+              inputProps={{
+                type: 'text',
+                value: formData.title,
+                onChange: (e) => setFormData(prev => ({ ...prev, title: e.target.value })),
+                placeholder: "Enter your goal title",
+              }}
+            />
 
-            {/* Description */}
-            <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
-                Description
-              </label>
-              <textarea
-                id="description"
-                value={formData.description}
-                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                rows={3}
-                className="w-full px-4 py-3 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors resize-none"
-                placeholder="Describe your goal in detail"
-              />
-            </div>
+            <FormField
+              id="description"
+              label="Description"
+              type="textarea"
+              rows={3}
+              inputProps={{
+                value: formData.description,
+                onChange: (e) => setFormData(prev => ({ ...prev, description: e.target.value })),
+                placeholder: "Describe your goal in detail",
+              }}
+            />
 
-            {/* Target Date and Progress */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label htmlFor="targetDate" className="block text-sm font-medium text-gray-700 mb-2">
-                  Target Date *
-                </label>
-                <input
-                  type="date"
-                  id="targetDate"
-                  value={formData.targetDate}
-                  onChange={(e) => setFormData(prev => ({ ...prev, targetDate: e.target.value }))}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${
-                    errors.targetDate ? 'border-error' : 'border-surface-300'
-                  }`}
-                />
-                {errors.targetDate && (
-                  <p className="mt-1 text-sm text-error">{errors.targetDate}</p>
-                )}
-              </div>
+              <FormField
+                id="targetDate"
+                label="Target Date *"
+                error={errors.targetDate}
+                inputProps={{
+                  type: 'date',
+                  value: formData.targetDate,
+                  onChange: (e) => setFormData(prev => ({ ...prev, targetDate: e.target.value })),
+                }}
+              />
 
-              <div>
-                <label htmlFor="progress" className="block text-sm font-medium text-gray-700 mb-2">
-                  Current Progress (%)
-                </label>
-                <input
-                  type="number"
-                  id="progress"
-                  min="0"
-                  max="100"
-                  value={formData.progress}
-                  onChange={(e) => setFormData(prev => ({ ...prev, progress: e.target.value }))}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors ${
-                    errors.progress ? 'border-error' : 'border-surface-300'
-                  }`}
-                />
-                {errors.progress && (
-                  <p className="mt-1 text-sm text-error">{errors.progress}</p>
-                )}
-              </div>
+              <FormField
+                id="progress"
+                label="Current Progress (%)"
+                error={errors.progress}
+                inputProps={{
+                  type: 'number',
+                  min: "0",
+                  max: "100",
+                  value: formData.progress,
+                  onChange: (e) => setFormData(prev => ({ ...prev, progress: e.target.value })),
+                }}
+              />
             </div>
 
-            {/* Category */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">
                 Category
               </label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {categories.map(category => (
-                  <motion.button
+                  <Button
                     key={category.value}
                     type="button"
                     whileHover={{ scale: 1.02 }}
@@ -260,19 +235,18 @@ const GoalModal = ({ goal, onSave, onClose }) => {
                   >
                     <ApperIcon name={category.icon} className="w-5 h-5" />
                     <span className="text-xs font-medium">{category.label}</span>
-                  </motion.button>
+                  </Button>
                 ))}
               </div>
             </div>
 
-            {/* Status */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">
                 Status
               </label>
               <div className="flex flex-wrap gap-2">
                 {statuses.map(status => (
-                  <motion.button
+                  <Button
                     key={status.value}
                     type="button"
                     whileHover={{ scale: 1.02 }}
@@ -285,18 +259,17 @@ const GoalModal = ({ goal, onSave, onClose }) => {
                     }`}
                   >
                     {status.label}
-                  </motion.button>
+                  </Button>
                 ))}
               </div>
             </div>
 
-            {/* Notifications */}
             <div>
               <div className="flex items-center justify-between mb-3">
                 <label className="block text-sm font-medium text-gray-700">
                   Notifications
                 </label>
-                <motion.button
+                <Button
                   type="button"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -305,7 +278,7 @@ const GoalModal = ({ goal, onSave, onClose }) => {
                 >
                   <ApperIcon name="Plus" className="w-4 h-4 mr-1" />
                   Add
-                </motion.button>
+                </Button>
               </div>
 
               {formData.notifications.length > 0 && (
@@ -326,13 +299,13 @@ const GoalModal = ({ goal, onSave, onClose }) => {
                           }
                         </p>
                       </div>
-                      <button
+                      <Button
                         type="button"
                         onClick={() => handleRemoveNotification(notification.id)}
                         className="p-1 text-surface-400 hover:text-error transition-colors"
                       >
                         <ApperIcon name="Trash2" className="w-4 h-4" />
-                      </button>
+                      </Button>
                     </div>
                   ))}
                 </div>
@@ -344,91 +317,84 @@ const GoalModal = ({ goal, onSave, onClose }) => {
                   animate={{ opacity: 1, height: 'auto' }}
                   className="p-4 border border-surface-200 rounded-lg bg-surface-50 space-y-3"
                 >
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Notification Message
-                    </label>
-                    <input
-                      type="text"
-                      value={currentNotification.message}
-                      onChange={(e) => setCurrentNotification(prev => ({ ...prev, message: e.target.value }))}
-                      className="w-full px-3 py-2 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                      placeholder="Don't forget to work on your goal!"
-                    />
-                  </div>
+                  <FormField
+                    label="Notification Message"
+                    inputProps={{
+                        type: 'text',
+                        value: currentNotification.message,
+                        onChange: (e) => setCurrentNotification(prev => ({ ...prev, message: e.target.value })),
+                        placeholder: "Don't forget to work on your goal!",
+                    }}
+                  />
 
                   <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        When
-                      </label>
-                      <select
-                        value={currentNotification.type}
-                        onChange={(e) => setCurrentNotification(prev => ({ ...prev, type: e.target.value }))}
-                        className="w-full px-3 py-2 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                      >
-                        <option value="before">Days Before</option>
-                        <option value="on">On Target Date</option>
-                      </select>
-                    </div>
+                    <FormField
+                        label="When"
+                    >
+                        <Input
+                            type="select"
+                            value={currentNotification.type}
+                            onChange={(e) => setCurrentNotification(prev => ({ ...prev, type: e.target.value }))}
+                            options={[
+                                { value: 'before', label: 'Days Before' },
+                                { value: 'on', label: 'On Target Date' },
+                            ]}
+                        />
+                    </FormField>
 
                     {currentNotification.type === 'before' && (
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Days
-                        </label>
-                        <input
-                          type="number"
-                          min="1"
-                          max="365"
-                          value={currentNotification.timing.days}
-                          onChange={(e) => setCurrentNotification(prev => ({ 
-                            ...prev, 
-                            timing: { ...prev.timing, days: parseInt(e.target.value) }
-                          }))}
-                          className="w-full px-3 py-2 border border-surface-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                        />
-                      </div>
+                      <FormField
+                          label="Days"
+                          inputProps={{
+                              type: 'number',
+                              min: "1",
+                              max: "365",
+                              value: currentNotification.timing.days,
+                              onChange: (e) => setCurrentNotification(prev => ({ 
+                                  ...prev, 
+                                  timing: { ...prev.timing, days: parseInt(e.target.value) }
+                              })),
+                          }}
+                      />
                     )}
                   </div>
 
                   <div className="flex items-center justify-end space-x-2">
-                    <button
+                    <Button
                       type="button"
                       onClick={() => setShowNotificationForm(false)}
                       className="px-3 py-1 text-sm text-surface-600 hover:text-surface-800 transition-colors"
                     >
                       Cancel
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       type="button"
                       onClick={handleAddNotification}
                       className="px-3 py-1 text-sm bg-primary text-white rounded-lg hover:brightness-110 transition-all"
                     >
                       Add Notification
-                    </button>
+                    </Button>
                   </div>
                 </motion.div>
               )}
             </div>
 
-            {/* Form Actions */}
             <div className="flex items-center justify-end space-x-3 pt-6 border-t border-surface-200">
-              <button
+              <Button
                 type="button"
                 onClick={onClose}
                 className="px-6 py-2 text-surface-600 hover:text-surface-800 transition-colors"
               >
                 Cancel
-              </button>
-              <motion.button
+              </Button>
+              <Button
                 type="submit"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="px-6 py-2 bg-primary text-white rounded-lg hover:brightness-110 transition-all"
               >
                 {goal ? 'Update Goal' : 'Create Goal'}
-              </motion.button>
+              </Button>
             </div>
           </form>
         </motion.div>

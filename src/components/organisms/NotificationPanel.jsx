@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { format, parseISO } from 'date-fns';
-import ApperIcon from './ApperIcon';
+import ApperIcon from '@/components/ApperIcon';
+import Button from '@/components/atoms/Button';
 
 const NotificationPanel = ({ notifications, onClose }) => {
   const getNotificationIcon = (type) => {
@@ -66,12 +67,12 @@ const NotificationPanel = ({ notifications, onClose }) => {
               </p>
             </div>
           </div>
-          <button
+          <Button
             onClick={onClose}
             className="p-2 text-surface-400 hover:text-surface-600 transition-colors"
           >
             <ApperIcon name="X" className="w-5 h-5" />
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -136,13 +137,13 @@ const NotificationPanel = ({ notifications, onClose }) => {
                 
                 {notification.enabled && (
                   <div className="mt-3 flex items-center justify-end">
-                    <motion.button
+                    <Button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className="text-xs px-3 py-1 bg-white/20 rounded-full hover:bg-white/30 transition-colors"
                     >
                       Mark as Read
-                    </motion.button>
+                    </Button>
                   </div>
                 )}
               </motion.div>
@@ -157,9 +158,9 @@ const NotificationPanel = ({ notifications, onClose }) => {
             <span className="text-surface-600">
               Showing next 7 days
             </span>
-            <button className="text-primary hover:text-primary/80 font-medium transition-colors">
+            <Button className="text-primary hover:text-primary/80 font-medium transition-colors">
               View All Settings
-            </button>
+            </Button>
           </div>
         </div>
       )}
