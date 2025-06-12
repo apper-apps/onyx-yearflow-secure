@@ -1,0 +1,91 @@
+[
+  {
+    "id": "1",
+    "title": "Complete Professional Certification",
+    "description": "Earn the Project Management Professional (PMP) certification to advance my career in project management and increase my marketability.",
+    "targetDate": "2024-08-15T00:00:00.000Z",
+    "category": "career",
+    "progress": 45,
+    "status": "active",
+    "notifications": [
+      {
+        "id": "n1",
+        "type": "before",
+        "timing": { "days": 30, "date": "2024-08-15T00:00:00.000Z" },
+        "message": "One month left to complete your PMP certification!",
+        "enabled": true
+      },
+      {
+        "id": "n2",
+        "type": "before", 
+        "timing": { "days": 7, "date": "2024-08-15T00:00:00.000Z" },
+        "message": "Final week to finish your certification - you've got this!",
+        "enabled": true
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "title": "Run a Half Marathon",
+    "description": "Train for and complete a half marathon to improve my fitness and mental resilience. Target time under 2 hours.",
+    "targetDate": "2024-10-12T00:00:00.000Z",
+    "category": "health",
+    "progress": 65,
+    "status": "active",
+    "notifications": [
+      {
+        "id": "n3",
+        "type": "before",
+        "timing": { "days": 14, "date": "2024-10-12T00:00:00.000Z" },
+        "message": "Two weeks until race day - time to taper your training!",
+        "enabled": true
+      }
+    ]
+  },
+  {
+    "id": "3",
+    "title": "Save Emergency Fund",
+    "description": "Build an emergency fund covering 6 months of expenses for financial security and peace of mind.",
+    "targetDate": "2024-12-31T00:00:00.000Z",
+    "category": "finance",
+    "progress": 78,
+    "status": "active",
+    "notifications": [
+      {
+        "id": "n4",
+        "type": "recurring",
+        "timing": { "days": 30, "date": "2024-12-31T00:00:00.000Z" },
+        "message": "Monthly check-in: Review your emergency fund progress",
+        "enabled": true
+      }
+    ]
+  },
+  {
+    "id": "4",
+    "title": "Learn Spanish Conversational Level",
+    "description": "Achieve conversational fluency in Spanish through daily practice, language exchange, and immersion activities.",
+    "targetDate": "2024-11-30T00:00:00.000Z",
+    "category": "education",
+    "progress": 32,
+    "status": "active",
+    "notifications": [
+      {
+        "id": "n5",
+        "type": "before",
+        "timing": { "days": 60, "date": "2024-11-30T00:00:00.000Z" },
+        "message": "Two months left to reach conversational Spanish - ¡Vamos!",
+        "enabled": true
+      }
+    ]
+  },
+  {
+    "id": "5",
+    "title": "Plan European Vacation",
+    "description": "Organize a 2-week trip to Europe including itinerary, bookings, and budget planning for an unforgettable experience.",
+    "targetDate": "2024-06-15T00:00:00.000Z",
+    "category": "travel",
+    "progress": 90,
+    "status": "completed",
+    "notifications": []
+  }
+]
