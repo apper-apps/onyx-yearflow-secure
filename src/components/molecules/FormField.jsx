@@ -6,12 +6,12 @@ const FormField = ({ label, id, error, children, className, inputProps = {}, typ
     return (
         <div className={className}>
             <Label htmlFor={id}>{label}</Label>
-{children ? (
+            {children ? (
                 // Render custom children (like select or custom input elements)
-                React.cloneElement(children, {
+                React.isValidElement(children) ? React.cloneElement(children, {
                     id,
                     className: `${children.props?.className || ''} ${error ? 'border-error' : 'border-surface-300'}`,
-                })
+                }) : children
             ) : (
                 <Input
                     id={id}
