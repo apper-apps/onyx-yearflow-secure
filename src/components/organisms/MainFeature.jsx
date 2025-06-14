@@ -11,6 +11,7 @@ import Button from '@/components/atoms/Button';
 import * as goalService from '@/services/api/goalService';
 import * as eventService from '@/services/api/eventService';
 import * as notificationService from '@/services/api/notificationService';
+import * as calendarService from '@/services/api/calendarService';
 
 const MainFeature = ({ calendar }) => {
   const [currentYear] = useState(new Date().getFullYear());
@@ -83,13 +84,26 @@ const MainFeature = ({ calendar }) => {
     }
   };
 
-  const handleDeleteGoal = async (goalId) => {
+const handleDeleteGoal = async (goalId) => {
     if (!window.confirm('Are you sure you want to delete this goal?')) return;
     
     try {
+      const existingGoal = goals.find(g => g.id === goalId);
       await goalService.delete(goalId);
       setGoals(prev => prev.filter(g => g.id !== goalId));
-      toast.success('Goal deleted successfully!');
+      
+      // Delete from calendar if connected and has calendar event
+      if (calendar && calendar.connected && calendar.type === 'google' && existingGoal?.calendarEventId) {
+        try {
+          await calendarService.deleteCalendarEvent(existingGoal.calendarEventId);
+          toast.success('Goal and calendar event deleted!');
+        } catch (calendarErr) {
+          toast.success('Goal deleted, but calendar event removal failed');
+          console.warn('Calendar sync error:', calendarErr);
+        }
+      } else {
+        toast.success('Goal deleted successfully!');
+      }
     } catch (err) {
       toast.error('Failed to delete goal');
     }
