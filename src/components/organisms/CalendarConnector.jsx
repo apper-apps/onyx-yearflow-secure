@@ -105,10 +105,21 @@ const CalendarConnector = ({ onConnect }) => {
             ].map(provider => (
               <Button
                 key={provider.value}
-                type="button"
+type="button"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => setCalendarType(provider.value)}
+                onClick={() => {
+                  const promptMessage = provider.value === 'google' 
+                    ? 'Enter your Google Calendar ID (e.g., your-calendar@gmail.com):'
+                    : 'Enter your Apple Calendar ID (e.g., ABCD-EFGH-1234-5678):';
+                  
+                  const userInput = prompt(promptMessage);
+                  if (userInput && userInput.trim()) {
+                    setCalendarType(provider.value);
+                    setCalendarId(userInput.trim());
+                    setValidationError('');
+                  }
+                }}
                 className={`p-4 border-2 rounded-lg flex flex-col items-center space-y-2 transition-all ${
                   calendarType === provider.value
                     ? 'border-primary bg-primary/5 text-primary'
